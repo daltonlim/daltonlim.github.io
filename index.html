@@ -330,6 +330,37 @@
             background-color: rgba(52, 73, 94, 0.8);
             transform: scale(1.1);
         }
+        .page-nav-controls {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1002;
+        }
+        .page-nav-button {
+            background: rgba(44, 62, 80, 0.8);
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+        .page-nav-button:hover {
+            background-color: rgba(52, 73, 94, 0.8);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -1994,6 +2025,10 @@
     <div class="font-size-controls">
         <button class="font-button" onclick="changeFontSize(1)">A+</button>
         <button class="font-button" onclick="changeFontSize(-1)">A-</button>
+    </div>
+    <div class="page-nav-controls">
+        <button class="page-nav-button" onclick="pageUp()">↑</button>
+        <button class="page-nav-button" onclick="pageDown()">↓</button>
     </div>
     <button class="fullscreen-toggle" onclick="toggleFullscreen()">⛶</button>
     <div class="main-content expanded">
@@ -4613,6 +4648,21 @@
             currentFontSize = Math.max(70, Math.min(150, currentFontSize)); // Limit between 70% and 150%
             document.querySelectorAll('.article-content').forEach(content => {
                 content.style.fontSize = `${currentFontSize}%`;
+            });
+        }
+        
+        // Page navigation
+        function pageDown() {
+            window.scrollBy({
+                top: window.innerHeight * 0.8,
+                behavior: 'smooth'
+            });
+        }
+        
+        function pageUp() {
+            window.scrollBy({
+                top: -window.innerHeight * 0.8,
+                behavior: 'smooth'
             });
         }
     </script>
