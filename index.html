@@ -293,6 +293,43 @@
             opacity: 1;
             pointer-events: auto;
         }
+        .font-size-controls {
+            position: fixed;
+            right: 20px;
+            bottom: 140px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1002;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .font-size-controls.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .font-button {
+            background: rgba(44, 62, 80, 0.8);
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+        .font-button:hover {
+            background-color: rgba(52, 73, 94, 0.8);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -1954,6 +1991,10 @@
         </ul>
     </div>
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="font-size-controls">
+        <button class="font-button" onclick="changeFontSize(1)">A+</button>
+        <button class="font-button" onclick="changeFontSize(-1)">A-</button>
+    </div>
     <button class="fullscreen-toggle" onclick="toggleFullscreen()">⛶</button>
     <div class="main-content expanded">
         <article class="article">
@@ -4532,10 +4573,12 @@
                 navigation.classList.add('visible');
                 document.querySelector('.sidebar-toggle').classList.add('visible');
                 document.querySelector('.fullscreen-toggle').classList.add('visible');
+                document.querySelector('.font-size-controls').classList.add('visible');
             } else {
                 navigation.classList.remove('visible');
                 document.querySelector('.sidebar-toggle').classList.remove('visible');
                 document.querySelector('.fullscreen-toggle').classList.remove('visible');
+                document.querySelector('.font-size-controls').classList.remove('visible');
             }
             
             lastScrollTop = scrollTop;
@@ -4561,6 +4604,16 @@
         function toggleNewspaperGroup(sourceId) {
             const group = document.getElementById(sourceId).closest('.newspaper-group');
             group.classList.toggle('collapsed');
+        }
+
+        // Font size adjustment
+        let currentFontSize = 100; // 100% is default
+        function changeFontSize(change) {
+            currentFontSize += change * 10; // Change by 10% increments
+            currentFontSize = Math.max(70, Math.min(150, currentFontSize)); // Limit between 70% and 150%
+            document.querySelectorAll('.article-content').forEach(content => {
+                content.style.fontSize = `${currentFontSize}%`;
+            });
         }
     </script>
 </body>
